@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from api.models import CreditCard, Payment, Order
+from api.models import CreditCard, Payment, Order, EBTCard
 
 class CreditCardSerializer(serializers.ModelSerializer):
     class Meta:
@@ -36,4 +36,18 @@ class PaymentSerializer(serializers.ModelSerializer):
             "status",
             "success_date",
             "last_processing_error"
+        ]
+
+# EBT Card Serializer
+class EBTCardSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = EBTCard
+        fields = [
+            "id",
+            "number",
+            "last_4",
+            "brand",
+            "issue_state",
+            "issue_month",
+            "issue_year",
         ]

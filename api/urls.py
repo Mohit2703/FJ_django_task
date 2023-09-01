@@ -41,4 +41,13 @@ urlpatterns = [
         views.CaptureOrder.as_view(), 
         name="orders-capture"
     ),
+    path("ebt_cards/",
+        views.ListCreateEBTCard.as_view(),
+        name="ebt-cards-list-create",
+    ), 
+    path(
+        "ebt_cards/<int:pk>/",
+        views.RetrieveDeleteEBTCard.as_view(),
+        name="ebt-cards-retrieve-delete",
+    ),
 ]

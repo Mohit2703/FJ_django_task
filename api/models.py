@@ -110,3 +110,36 @@ class Payment(models.Model):
     )
 
     last_processing_error = models.TextField(null=True, blank=True)
+
+# EBTCreditCard
+def validateEBTNumber(value):
+    l = len(value)
+    if (l >= 16 and l <= 19):
+        return value
+    else:
+        raise ValidationError(
+            "EBT card number must be between 16 and 19 digits"
+        )
+class EBTCard(models.Model):
+    number = models.CharField(
+        max_length=19, validators=[validateEBTNumber], default="4111111111111111"
+    )
+    last_4 = models.CharField(max_length=4)
+    
+    # Constants for card brands that ACME supports
+    TYPE_AMEX = "amex"
+    TYPE_DISCOVER = "discover"
+    TYPE_MASTERCARD = "mastercard"
+    TYPE_VISA = "visa"
+    CARD_BRAND_CHOICE = (
+        (TYPE_AMEX, "Amex"),
+        (TYPE_DISCOVER, "Discover"),
+        (TYPE_MASTERCARD, "Mastercard"),
+        (TYPE_VISA, "Visa"),
+    )
+    issue_state = models.CharField(max_length=20)
+    brand = models.CharField(max_length=255, choices=CARD_BRAND_CHOICE)
+    issue_month = models.PositiveSmallIntegerField(validators=[validateMonth])
+    issue_year = models.PositiveSmallIntegerField() # 2 digits, e.g. 26 instead of 2026
+    # exp_month = models.PositiveSmallIntegerField(validators=[validateMonth])
+    # exp_year = models.PositiveSmallIntegerField() # 2 digits, e.g. 26 instead of 2026

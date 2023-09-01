@@ -8,8 +8,8 @@ from rest_framework.generics import ListCreateAPIView, RetrieveDestroyAPIView
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from api.models import Payment, CreditCard, Order
-from api.serializers import PaymentSerializer, CreditCardSerializer, OrderSerializer
+from api.models import Payment, CreditCard, Order, EBTCard
+from api.serializers import PaymentSerializer, CreditCardSerializer, OrderSerializer, EBTCardSerializer
 from processor import processPayment
 
 class ListCreateCreditCard(ListCreateAPIView):
@@ -126,3 +126,23 @@ class CaptureOrder(APIView):
             return Response({
                 "error_message": "Unable to find Order with id {}".format(id)
             }, status=status.HTTP_404_NOT_FOUND)
+
+class ListCreateEBTCard(ListCreateAPIView):
+    """ Exposes the following routes,
+    
+    1. GET http://localhost:8000/api/ebt_cards/ <- returns a list of all EBTCard objects
+    2. POST http://localhost:8000/api/ebt_cards/ <- creates a single EBTCard object and returns it
+
+    """
+    queryset = EBTCard.objects.all()
+    serializer_class = EBTCardSerializer
+
+class RetrieveDeleteEBTCard(RetrieveDestroyAPIView):
+    """ Exposes the following routes,
+    
+    1. GET http://localhost:8000/api/ebt_cards/:id/ <- returns an EBTCard object provided its id.
+    2. DELETE http://localhost:8000/api/ebt_cards/:id/ <- deletes an EBTCard object by id.
+
+    """
+    queryset = EBTCard.objects.all()
+    serializer_class = EBTCardSerializer
