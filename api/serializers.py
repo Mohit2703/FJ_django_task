@@ -24,6 +24,13 @@ class OrderSerializer(serializers.ModelSerializer):
             # "ebt_total",
         ]
 
+        # constraints = [
+        #     CheckConstraint(
+        #         check = F("order_total") == F("ebt_total") + F("credit_total") and F("order_total") > F("ebt_total"),
+        #         name="order_total_gte_ebt_total_plus_credit_total",
+        #     )
+        # ]
+
 class PaymentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Payment

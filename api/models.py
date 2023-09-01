@@ -33,6 +33,14 @@ class CreditCard(models.Model):
 
 
 class Order(models.Model):
+    class Meta:
+        constraints = [
+            models.CheckConstraint(
+                check = models.Q(order_total__gte=models.F("ebt_total") + models.F("credit_total")) & models.Q(order_total__gt=models.F("ebt_total")),
+                name="order_total_gte_ebt_total_plus_credit_total",
+            )
+        ]
+
     # The total amount which needs to be paid by the customer, including taxes and fees
     order_total = models.DecimalField(
         decimal_places=2,
