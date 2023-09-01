@@ -1,5 +1,18 @@
 # API Take Home Challenge
 
+## TimeLine
+### Understanding Code Structure and Credit Card Functionality
+* 9:52 am - 10:20 am
+
+### Changes 1
+* 10:20 am - 10:35am
+
+### Changes 2
+* 10:35 am - 11:02 am
+
+### Changes 3
+* 11:02 am - 11:35 am
+
 ## Instructions
 
 You will be extending a Django-based API which processes credit card payments to accept both credit cards and EBT payments. This exercise shows you a challenge ACME has solved for our customers and will allow you to demonstrate your experience with REST APIs. To get started,
