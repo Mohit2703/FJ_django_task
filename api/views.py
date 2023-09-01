@@ -97,7 +97,10 @@ class CaptureOrder(APIView):
             payment_queryset = Payment.objects.filter(order__id=id)
 
             # Payments must satisfy the order_total
+            ebt_total = sum([x.amount for x in payment_queryset if x.payment_method == "ebt_card"])
+            credit_total = sum([x.amount for x in payment_queryset if x.payment_method == "credit_card"])
             total_payment_amount = sum([x.amount for x in payment_queryset])
+
             if total_payment_amount != order_obj.order_total:
                 return Response({
                     "error_message": "Payment total does not match order total for Order with id {}".format(id)
@@ -115,6 +118,8 @@ class CaptureOrder(APIView):
             else:
                 order_obj.status = Order.TYPE_SUCCEEDED
                 order_obj.success_date = timezone.now()
+                order_obj.ebt_total = ebt_total
+                order_obj.credit_total = credit_total
 
             order_obj.save() # write status back to database
 

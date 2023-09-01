@@ -32,7 +32,9 @@ class PaymentSerializer(serializers.ModelSerializer):
             "order", # The id of the associated Order object
             "amount",
             "description",
-            "payment_method", # The id of the associated CreditCard object
+            "payment_method", # credit_card OR ebt_card 
+            "credit_card", # The id of the associated CreditCard object
+            "ebt_card", # The id of the associated EBTCard object
             "status",
             "success_date",
             "last_processing_error"

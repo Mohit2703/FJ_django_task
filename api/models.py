@@ -66,9 +66,12 @@ class Order(models.Model):
     #
     # The amount which can be paid for with EBT. It's not necessarily true that the
     # entire ebt_total will be satisfied with EBT tender.
-    # ebt_total = models.DecimalField(
-    #     decimal_places=2, max_digits=12, validators=[MinValueValidator(0)]
-    # )
+    ebt_total = models.DecimalField(
+        decimal_places=2, max_digits=12, validators=[MinValueValidator(0)], default=0
+    )
+    credit_total = models.DecimalField(
+        decimal_places=2, max_digits=12, validators=[MinValueValidator(0)], default=0
+    )
 
 class Payment(models.Model):
     order = models.ForeignKey(
@@ -83,8 +86,14 @@ class Payment(models.Model):
     )
 
     description = models.CharField(max_length=255)
-    payment_method = models.ForeignKey(
-        CreditCard, on_delete=models.DO_NOTHING
+    payment_method = models.CharField(max_length=25, choices=[("credit_card", "credit_card"), ("ebt_card", "ebt_card")])
+
+    credit_card = models.ForeignKey(
+        CreditCard, on_delete=models.CASCADE, db_index=True, null=True, blank=True
+    )
+
+    ebt_card = models.ForeignKey(
+        "EBTCard", on_delete=models.CASCADE, db_index=True, null=True, blank=True
     )
 
     # Constants for payment statuses
